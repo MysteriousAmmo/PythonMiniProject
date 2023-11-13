@@ -84,4 +84,16 @@ with open(tempfilename, 'w') as csvfile:
 
 
 
+# Finding the expenditure per month 
 
+Total = 0
+
+def total (): 
+    total = 0
+    for element in tempdict2.values():
+        total = total + element 
+
+    return (total) 
+
+    
+    
