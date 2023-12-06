@@ -29,11 +29,6 @@ def strin(s):
 # The strin and intin functions have to be called prior to calling this function, otherwise the 'n' and 's' variables will have no values.
 # To operate, first call the intin and strin functions to get values for 'n' and 's', then call this function 
 
-tempdict1 = {} # this line is required only once and is not part of this code set
-
-def dictin1(): 
-    tempdict1[n] = s 
-
 
 
 
