@@ -95,5 +95,20 @@ def total ():
 
     return (total) 
 
-    
-    
+
+
+
+# Spliting description and storing it in dictionary 
+
+
+stringin = str(input("Enter a short description of the item")) 
+namein = str(input("Enter the expenditure name")) 
+descdict = [] 
+
+# the string input is passed as the argument to the function as 'x' and the item name is passed as 'y'
+def descsplit (x,y): 
+    while x != 'end':
+        print("Type 'end' to stop inputting values, otherwise input item name followed by description")
+        y = int(input)
+        templist = x.split() 
+        descdict[y] = templist 
