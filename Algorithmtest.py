@@ -9,11 +9,12 @@ descdict = []
 
 # the string input is passed as the argument to the function as 'x' and the item name is passed as 'y'
 def descsplit (x,y): 
-    while x != 'end':
-        print("Type 'end' to stop inputting values, otherwise input item name followed by description")
-        y = int(input)
+    while y != 'exit': 
+        print("Type 'exit' to stop enterring") 
         templist = x.split() 
-        descdict[y] = templist 
+        templist1 = list(set(templist)) 
+        templist1.sorted()
+        descdict[y] = templist1
         return descdict
 
 
@@ -40,6 +41,18 @@ Description of what the following code does:
 6) Through the second iteration it stores the count of how many times a word occurs
 7) How many times each word occurs along with the word itself is stored in a temp dict
 '''
+
+#Temporary method for inputting data 
+
+# name = ''
+
+# while name != 'exit': 
+#     name = input("Enter the name of the item: ") 
+#     desc = input("Enter a short word description of the item: ") 
+#     descsplit(desc,name) 
+
+
+
 for description in tempdict1.items(): # Step 1
     count = 0 
     key, value = description # Step 2
@@ -55,7 +68,6 @@ for description in tempdict1.items(): # Step 1
         wordtemp[word] = count # Step 7
 
         tempwordindex[wordmain] = itemlist
-
 
 for items in wordtemp.items(): 
     key, value = items      
