@@ -3,12 +3,13 @@
 # Common word ignorance is not yet implemented. 
 
 
-stringin = str(input("Enter a short description of the item")) 
+descin = str(input("Enter a short description of the item")) 
 namein = str(input("Enter the expenditure name")) 
 descdict = [] 
 
 # the string input is passed as the argument to the function as 'x' and the item name is passed as 'y'
 def descsplit (x,y): 
+    descdict = [] 
     while y != 'exit': 
         print("Type 'exit' to stop enterring") 
         templist = x.split() 
@@ -19,7 +20,7 @@ def descsplit (x,y):
 
 
 
-tempdict1 = descsplit(stringin, namein) 
+tempdict1 = descsplit(descin, namein) 
 
 # Filtering through the desciption to find the words which occur the most. 
 
@@ -69,16 +70,20 @@ for description in tempdict1.items(): # Step 1
 
         tempwordindex[wordmain] = itemlist
 
-for items in wordtemp.items(): 
-    key, value = items      
+for key, value in wordtemp.items():   
     if value >= 4: 
-        #shifts only the words which occur three or more times from the temp dict to the main dict
-        wordcountdict[key] = (value-1)  
+        #shifts only the words which occur four or more times from the temp dict to the main dict
+        wordcountdict[key] = (value)  
         #stores the same words as the key, but with the value as the items in which it occurs. 
         wordindict[wordmain]
         
     if count > countmain: 
         highcount = key
     countmain = count
+
+
+categories = [] # List of headers for categories table
+for item in wordcountdict.keys(): 
+    categories.append(item)
 
     
