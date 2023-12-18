@@ -5,6 +5,26 @@ from tkinter import ttk
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 exp_type_description_dict = {}
+categories_dict = {}
+
+def categorize_items(item_dict):
+    word_count_dict = {}
+    item_category_dict = {}
+
+    for item, description in item_dict.items():
+        for word in description:
+            if word in word_count_dict:
+                word_count_dict[word] += 1
+            else:
+                word_count_dict[word] = 1
+
+    for word, count in word_count_dict.items():
+        if count >= 3:  # Adjust this to be higher
+            category_name = word
+            item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
+
+    return item_category_dict
+
 
 def create_exp_dictionary():
     exp_type = exp_entry1.get()
@@ -23,6 +43,7 @@ def create_exp_dictionary():
 
     exp_type_description_dict[exp_type] = exp_description
 
+    categories_dict = categorize_items(exp_type_description_dict)
 
     tree_exp.insert("", tk.END, values=(exp_data["Type"], exp_data["Amount"], exp_data["Description"], exp_data["Essential"]))
 
@@ -398,9 +419,8 @@ def main():
     except ValueError:
         print("Invalid input. Please enter a valid numeric value.")
 
-if __name__ == "__main__":
-    main()
-
+# if __name__ == "__main__":
+#     main()
 
 
 root.mainloop()
