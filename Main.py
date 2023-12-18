@@ -92,6 +92,7 @@ def openprospect():
 
 
 
+
 def create_income_dictionary():
     income_type = inc_entry1.get()
     income_amount = inc_entry2.get()
