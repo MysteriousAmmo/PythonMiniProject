@@ -146,15 +146,17 @@ def exp_button():
 #pulling amount and data in expected format for pie chart
 amounttemp = 0
 piechartdict = {}
-def piechartdata(): 
-    for category, items1 in categories_dict.items(): 
-        for item, amount in price_dict.items(): 
-            if item in items1: 
+def piechartdata():
+    piechartdict = {}
+
+    for category, items1 in categories_dict.items():
+        amounttemp = 0  # Reset amounttemp for each category
+        for item, amount in price_dict.items():
+            if item in items1:
                 amounttemp += amount
         piechartdict[category] = amounttemp
 
     return piechartdict
-
 
 # test data - ouput should be correct
 print(piechartdata)
