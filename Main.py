@@ -52,6 +52,11 @@ def create_exp_dictionary():
     exp_description_entry.delete(0, tk.END)
     checkbox_var1.set(False)
 
+def openprospect(): 
+    with open("/Users/amshul/Desktop/emp/final_prospectt_theory.py") as f:
+        exec(f.read())
+
+
 
 def create_income_dictionary():
     income_type = inc_entry1.get()
@@ -222,6 +227,9 @@ exp_entry_label3 = tk.Label(tab3, text='Target savings')
 exp_entry_label3.grid(row=3, column=0, padx=10, pady=5)
 exp_entry3 = tk.Entry(tab3, width=25)
 exp_entry3.grid(row=3, column=1, padx=10, pady=5)
+
+prospect_button = tk.Button(tab2, text="Open Prospect", command=openprospect, fg="white", bg="black")
+prospect_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
  
 
 title = tk.Label(tab3, text="Savings", font=("calibri", 40, "bold"), fg="black")
