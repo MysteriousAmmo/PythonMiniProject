@@ -2,8 +2,8 @@ import csv
 import tkinter as tk
 from tkinter import ttk
 import subprocess
-# import matplotlib.pyplot as plt
-# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 exp_type_description_dict = {}
 categories_dict = {}
@@ -17,28 +17,20 @@ def categorize_items(item_dict):
     item_category_dict = {}
 
     for item, description in item_dict.items():
-        for word in description:
+        words = description.split()
+
+        for word in words:
             if word in word_count_dict:
                 word_count_dict[word] += 1
             else:
                 word_count_dict[word] = 1
 
     for word, count in word_count_dict.items():
-        if count >= 3:  # Adjust this to be higher
-            # for item, desc in item_dict.items(): 
-            #     if word in desc:
+        if count >= 3: 
             category_name = word
-            item_category_dict[category_name] = [item]
-
-    for item in item_category_dict.keys(): 
-        categories.append(item)
-
-    
-
-    
+            item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
 
     return item_category_dict
-
 
 
 def create_exp_dictionary():
@@ -159,7 +151,7 @@ def piechartdata():
         for item, amount in price_dict.items(): 
             if item in items1: 
                 amounttemp += amount
-        piechartdict[category] = amount 
+        piechartdict[category] = amounttemp
 
     return piechartdict
 
@@ -168,6 +160,34 @@ def piechartdata():
 print(piechartdata)
     
 
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+# ...
+
+def create_pie_chart():
+    # Call the function to get the data for the pie chart
+    piechart_data = piechartdata()
+
+    # Extract labels and sizes from the dictionary
+    labels = list(piechart_data.keys())
+    sizes = list(piechart_data.values())
+
+    # Colors for each category
+    colors = ['#ff9999', '#66b3ff', '#99ff99']  # You can modify the colors as needed
+
+    # Exploding the slices
+    explode = tuple(0.1 for _ in labels)
+
+    # Plotting the pie chart
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors, explode=explode)
+    ax.set_title('Expense Categories Pie Chart')
+
+    # Create a Tkinter canvas to embed the Matplotlib figure
+    canvas = FigureCanvasTkAgg(fig, master=tab3)
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
 
 
@@ -292,6 +312,10 @@ prospect_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 title = tk.Label(tab3, text="Savings", font=("calibri", 40, "bold"), fg="black")
 title.grid(row=0, column=0, padx=50, pady=30, columnspan=2)
+
+pie_chart_button = tk.Button(tab3, text="Create Pie Chart", command=create_pie_chart, fg="white", bg="black")
+pie_chart_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+
 
 
 root.mainloop()
