@@ -21,7 +21,7 @@ def categorize_items(item_dict):
                 word_count_dict[word] = 1
 
     for word, count in word_count_dict.items():
-        if count >= 2:  # Adjust this to be higher
+        if count >= 3:  # Adjust this to be higher
             category_name = word
             item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
 
