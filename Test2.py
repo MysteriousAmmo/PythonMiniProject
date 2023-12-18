@@ -14,14 +14,16 @@ def categorize_items(item_dict):
     item_category_dict = {}
 
     for item, description in item_dict.items():
-        for word in description:
+        words = description.split()
+
+        for word in words:
             if word in word_count_dict:
                 word_count_dict[word] += 1
             else:
                 word_count_dict[word] = 1
 
     for word, count in word_count_dict.items():
-        if count >= 3:  # Adjust this to be higher
+        if count >= 3: 
             category_name = word
             item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
 
