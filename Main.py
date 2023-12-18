@@ -59,9 +59,10 @@ def create_exp_dictionary():
 
 #function to open anirudh's part
 def openprospect(): 
-    # with open("C:\pythonproject\python_final_mini_project.py") as f:
-    #     exec(f.read())
-    subprocess.run(["python", "C:\pythonproject\python_final_mini_project.py"])
+    with open("C:\pythonproject\python_final_mini_project.py") as f:
+        exec(f.read())
+
+
 
 def create_income_dictionary():
     income_type = inc_entry1.get()
