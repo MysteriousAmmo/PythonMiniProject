@@ -8,6 +8,7 @@ import subprocess
 exp_type_description_dict = {}
 categories_dict = {}
 categories = [] 
+price_dict = {}
 
 
 
@@ -61,6 +62,8 @@ def create_exp_dictionary():
 
     categories_dict = categorize_items(exp_type_description_dict)
 
+    price_dict[exp_type] = exp_amount
+
     tree_exp.insert("", tk.END, values=(exp_data["Type"], exp_data["Amount"], exp_data["Description"], exp_data["Essential"]))
 
     exp_entry1.delete(0, tk.END)
@@ -69,15 +72,15 @@ def create_exp_dictionary():
     checkbox_var1.set(False)
 
 
-def calculate_category_totals():
-    global category_totals
-    category_totals = {}
+# def calculate_category_totals():
+#     global category_totals
+#     category_totals = {}
 
-    for category, items in categories_dict.items():
-        total_amount = sum(float(tree_exp.item(item, 'values')[1]) for item in items)
-        category_totals[category] = total_amount
+#     for category, items in categories_dict.items():
+#         total_amount = sum(float(tree_exp.item(item, 'values')[1]) for item in items)
+#         category_totals[category] = total_amount
 
-    print("Category Totals:", category_totals)
+#     print("Category Totals:", category_totals)
 
 
     # def exp_button():
@@ -146,6 +149,26 @@ def read_from_csv():
 def exp_button():
     save_to_csv()
     create_exp_dictionary()
+
+
+#pulling amount and data in expected format for pie chart
+amounttemp = 0
+piechartdict = {}
+def piechartdata(): 
+    for category, items1 in categories_dict.items(): 
+        for item, amount in price_dict.items(): 
+            if item in items1: 
+                amounttemp += amount
+        piechartdict[category] = amount 
+
+    return piechartdict
+
+
+# test data - ouput should be correct
+print(piechartdata)
+    
+
+
 
 
 # # Sample data
