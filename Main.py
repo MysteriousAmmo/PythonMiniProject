@@ -53,7 +53,7 @@ def create_exp_dictionary():
     checkbox_var1.set(False)
 
 def openprospect(): 
-    with open("/Users/amshul/Desktop/emp/final_prospectt_theory.py") as f:
+    with open("C:\pythonproject\python_final_mini_project.py") as f:
         exec(f.read())
 
 
