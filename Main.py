@@ -7,6 +7,8 @@ import subprocess
 
 exp_type_description_dict = {}
 categories_dict = {}
+categories = [] 
+
 
 def categorize_items(item_dict):
     word_count_dict = {}
@@ -21,10 +23,17 @@ def categorize_items(item_dict):
 
     for word, count in word_count_dict.items():
         if count >= 3:  # Adjust this to be higher
+            # for item, desc in item_dict.items(): 
+            #     if word in desc:
             category_name = word
-            item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
+            item_category_dict[category_name] = [item]
 
+    for item in item_category_dict.keys(): 
+        categories.append(item)
 
+    
+
+    
 
     return item_category_dict
 
@@ -45,6 +54,8 @@ def create_exp_dictionary():
     
     }
 
+
+
     exp_type_description_dict[exp_type] = exp_description
 
     categories_dict = categorize_items(exp_type_description_dict)
@@ -55,6 +66,23 @@ def create_exp_dictionary():
     exp_entry2.delete(0, tk.END)
     exp_description_entry.delete(0, tk.END)
     checkbox_var1.set(False)
+
+
+def calculate_category_totals():
+    global category_totals
+    category_totals = {}
+
+    for category, items in categories_dict.items():
+        total_amount = sum(float(tree_exp.item(item, 'values')[1]) for item in items)
+        category_totals[category] = total_amount
+
+    print("Category Totals:", category_totals)
+
+
+    # def exp_button():
+    #     save_to_csv()
+    #     create_exp_dictionary()
+    #     calculate_category_totals()
 
 
 #function to open anirudh's part
