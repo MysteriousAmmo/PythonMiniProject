@@ -1,6 +1,7 @@
 import csv
 import tkinter as tk
 from tkinter import ttk
+import subprocess
 # import matplotlib.pyplot as plt
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -23,7 +24,10 @@ def categorize_items(item_dict):
             category_name = word
             item_category_dict[category_name] = [item for item, desc in item_dict.items() if word in desc]
 
+
+
     return item_category_dict
+
 
 
 def create_exp_dictionary():
@@ -52,11 +56,12 @@ def create_exp_dictionary():
     exp_description_entry.delete(0, tk.END)
     checkbox_var1.set(False)
 
+
+#function to open anirudh's part
 def openprospect(): 
-    with open("/Users/amshul/Desktop/emp/final_prospectt_theory.py") as f:
-        exec(f.read())
-
-
+    # with open("C:\pythonproject\python_final_mini_project.py") as f:
+    #     exec(f.read())
+    subprocess.run(["python", "C:\pythonproject\python_final_mini_project.py"])
 
 def create_income_dictionary():
     income_type = inc_entry1.get()
@@ -228,207 +233,12 @@ exp_entry_label3.grid(row=3, column=0, padx=10, pady=5)
 exp_entry3 = tk.Entry(tab3, width=25)
 exp_entry3.grid(row=3, column=1, padx=10, pady=5)
 
+#Open anirudh's part - opens a separate file
 prospect_button = tk.Button(tab2, text="Open Prospect", command=openprospect, fg="white", bg="black")
 prospect_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
- 
 
 title = tk.Label(tab3, text="Savings", font=("calibri", 40, "bold"), fg="black")
 title.grid(row=0, column=0, padx=50, pady=30, columnspan=2)
-
-#First code
-
-def main():
-    # Input savings goal and current savings from the user
-    try:
-        savings_goal = float(input("Enter the savings goal: "))
-        current_savings = float(input("Enter the current savings: "))
-    except ValueError:
-        print("Invalid input. Please enter valid numeric values.(Note the input should have a decimal place)")
-        return
-
-    # Input probability from the user
-    try:
-        confidence = float(input('Enter a number between 0 and 1 based on how much confidence you have in this investment: '))
-        historical_performance = float(input('Enter a number between 0 and 1 based on historical performance of this investment: '))
-        risk_tolerance = float(input('Enter a number between 0 and 1, which represents how much risk you are ready to take: '))
-
-        probability = calculate_probability(confidence, historical_performance, risk_tolerance)
-
-        if 0 <= probability <= 1:
-            weighted_return = calculate_weighted_return(probability, savings_goal, current_savings)
-            print(f"Weighted return: {weighted_return}")
-        else:
-            print("Invalid probability. Please enter a value between 0 and 1.")
-    except ValueError:
-        print("Invalid input. Please enter a valid numeric value.")
-
-if __name__ == "__main__":
-    main()
-
-
-
-def calculate_probability(confidence, historical_performance, risk_tolerance):
-    # Normalize inputs to ensure they are between 0 and 1
-    confidence = max(0, min(1, confidence))
-    historical_performance = max(0, min(1, historical_performance))
-    risk_tolerance = max(0, min(1, risk_tolerance))
-
-    # Weight factors (adjust as needed)
-    confidence_weight = 0.4
-    historical_performance_weight = 0.3
-    risk_tolerance_weight = 0.3
-
-    # Combine factors to calculate probability
-    probability = (
-        confidence_weight * confidence +
-        historical_performance_weight * historical_performance +
-        risk_tolerance_weight * risk_tolerance
-    )
-
-    # Normalize the final probability
-    probability = max(0, min(1, probability))
-
-    return probability
-
-def prospect_utility(value, alpha=0.8, beta=2, lambda_=1, gamma=0.5):
-    if value >= 0:
-        return value**alpha
-    else:
-        return -lambda_ * (-value)**beta
-
-def prospect_decision(probability, outcome, gamma=0.5):
-    weighted_outcome = prospect_utility(outcome) * probability**gamma
-    return weighted_outcome
-
-def calculate_weighted_return(probability, savings_goal, current_savings, gamma=0.5):
-    outcome = savings_goal - current_savings
-    weighted_return = prospect_decision(probability, outcome, gamma)
-    return weighted_return
-
-def main():
-    savings_goal = 5000
-    current_savings = 2000
-
-    # Input probability from the user
-    try:
-        confidence = float(input('Enter a number between 0 and 1 based on how much confidence you have in this investment: '))
-        historical_performance = float(input('Enter a number between 0 and 1 based on historical performance of this investment: '))
-        risk_tolerance = float(input('Enter a number between 0 and 1, which represents how much risk you are ready to take: '))
-
-        probability = calculate_probability(confidence, historical_performance, risk_tolerance)
-
-        if 0 <= probability <= 1:
-            weighted_return = calculate_weighted_return(probability, savings_goal, current_savings)
-            print(f"Weighted return: {weighted_return}")
-        else:
-            print("Invalid probability. Please enter a value between 0 and 1.")
-    except ValueError:
-        print("Invalid input. Please enter a valid numeric value.")
-
-    #if weighted_return >= 0 and weighted_return <= 427.75:
-     #   print('Its recomended you look for an alternate investement option as the weighted return is not providing a favourable outcome.')
-    #elif weighted_return >= 427.76 and weighted_return <= 470:
-     #   print('''Although the weighted return is not bad, Its recomended that you talk to you investment advisors before investing as, 
-#the weighted return indicates that it might not be a favourable outcome.''')
-#    else:
-#        print('''The weighted return shows that you can go ahead with the investment. But it is always advised to consult with
-#your fianncial advisor before making an investment. ''')
-    
-#if __name__ == "__main__":
-#    main()
-
-
-
-#Second code 
-
-
-def calculate_probability(confidence, historical_performance, risk_tolerance):
-    # Normalize inputs to ensure they are between 0 and 1
-    confidence = max(0, min(1, confidence))
-    historical_performance = max(0, min(1, historical_performance))
-    risk_tolerance = max(0, min(1, risk_tolerance))
-
-    # Weight factors (adjust as needed)
-    confidence_weight = 0.4
-    historical_performance_weight = 0.3
-    risk_tolerance_weight = 0.3
-
-    # Combine factors to calculate probability
-    probability = (
-        confidence_weight * confidence +
-        historical_performance_weight * historical_performance +
-        risk_tolerance_weight * risk_tolerance
-    )
-
-    # Normalize the final probability
-    probability = max(0, min(1, probability))
-
-    return probability
-
-# alpha : When α is close to 1, the utility function exhibits a more linear shape for positive outcomes.
-# The higher the αα, the more "concave" or curvature there is in the utility function for gains.
-
-# Beta : The β parameter affects the shape of the utility function for negative outcomes (losses). It controls the curvature of the function 
-#        for negative values.
-#    A higher value of β makes the utility function more concave for negative outcomes.
-#    The β parameter reflects the idea that people tend to be more sensitive to losses than to equivalent gains.
-
-# Gamma :     The γ parameter is used in the probability weighting part of the function. It influences how 
-#             much weight is given to the probability of an outcome.
-#             A higher γ makes the probability weighting more "powerful" and can lead to more pronounced changes 
-#             in the shape of the utility function based on perceived probabilities.
-#             γ is often associated with the degree of risk aversion. Higher values of γγ indicate higher risk aversion.
-def prospect_utility(value, alpha=0.8, beta=2, lambda_=1):
-    if value >= 0:
-        return value**alpha
-    else:
-        return -lambda_ * (-value)**beta
-
-def prospect_decision(probability, outcome, gamma=0.5):
-    weighted_outcome = prospect_utility(outcome) * probability**gamma
-    return weighted_outcome
-
-def calculate_weighted_return(probability, savings_goal, current_savings, gamma=0.5):
-    outcome = savings_goal - current_savings
-    weighted_return = prospect_decision(probability, outcome, gamma)
-    return weighted_return
-
-def convert_to_percentage(weighted_return,savings_goal):
-    percentage_return = (weighted_return * 100)//savings_goal
-    return percentage_return
-
-def main():
-    # Input savings goal and current savings from the user
-    try:
-        savings_goal = float(input("Enter the savings goal: "))
-        current_savings = float(input("Enter the current savings: "))
-        
-    except ValueError:
-        print("Invalid input. Please enter valid numeric values. (Note the input should have a decimal place)")
-        return
-
-    # Input probability from the user
-    try:
-        confidence = float(input('Enter a number between 0 and 1 based on how much confidence you have in this investment: '))
-        historical_performance = float(input('Enter a number between 0 and 1 based on historical performance of this investment: '))
-        risk_tolerance = float(input('Enter a number between 0 and 1, which represents how much risk you are ready to take: '))
-
-        probability = calculate_probability(confidence, historical_performance, risk_tolerance)
-
-        if 0 <= probability <= 1:
-            weighted_return = calculate_weighted_return(probability, savings_goal, current_savings)
-            print(f"Weighted return: {weighted_return}")
-
-            # Convert to percentage and print
-            percentage_return = convert_to_percentage(weighted_return,savings_goal)
-            print(f"Percentage Return: {percentage_return}%")
-        else:
-            print("Invalid probability. Please enter a value between 0 and 1.")
-    except ValueError:
-        print("Invalid input. Please enter a valid numeric value.")
-
-# if __name__ == "__main__":
-#     main()
 
 
 root.mainloop()
