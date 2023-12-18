@@ -59,8 +59,9 @@ def create_exp_dictionary():
 
 #function to open anirudh's part
 def openprospect(): 
-    with open("C:\pythonproject\python_final_mini_project.py") as f:
-        exec(f.read())
+    # with open("C:\pythonproject\python_final_mini_project.py") as f:
+    #     exec(f.read())
+    subprocess.run(["python", "C:\pythonproject\python_final_mini_project.py"])
 
 
 
