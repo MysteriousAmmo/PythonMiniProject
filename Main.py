@@ -10,6 +10,7 @@ categories_dict = {}
 categories = [] 
 
 
+
 def categorize_items(item_dict):
     word_count_dict = {}
     item_category_dict = {}
