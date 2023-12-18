@@ -1,32 +1,36 @@
 import csv
 import tkinter as tk
 from tkinter import ttk
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+# import matplotlib.pyplot as plt
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+exp_type_description_dict = {}
 
 def create_exp_dictionary():
     exp_type = exp_entry1.get()
     exp_amount = exp_entry2.get()
     exp_description = exp_description_entry.get()
     essential = checkbox_var1.get()
-    non_essential = checkbox_var2.get()
+
 
     exp_data = {
         "Type": exp_type,
         "Amount": exp_amount,
         "Description": exp_description,
         "Essential": essential,
-        "Non-Essential": non_essential
+    
     }
 
-    tree_exp.insert("", tk.END, values=(exp_data["Type"], exp_data["Amount"], exp_data["Description"], exp_data["Essential"], exp_data["Non-Essential"]))
+    exp_type_description_dict[exp_type] = exp_description
+
+
+    tree_exp.insert("", tk.END, values=(exp_data["Type"], exp_data["Amount"], exp_data["Description"], exp_data["Essential"]))
 
     exp_entry1.delete(0, tk.END)
     exp_entry2.delete(0, tk.END)
     exp_description_entry.delete(0, tk.END)
     checkbox_var1.set(False)
-    checkbox_var2.set(False)
+
 
 def create_income_dictionary():
     income_type = inc_entry1.get()
@@ -38,6 +42,8 @@ def create_income_dictionary():
     }
 
     tree_inc.insert("", tk.END, values=(income_data["Type"], income_data["Amount"]))
+
+
 
     inc_entry1.delete(0, tk.END)
     inc_entry2.delete(0, tk.END)
@@ -54,7 +60,7 @@ def delete_income_item():
 
 def save_to_csv():
     with open('expense_income_data.csv', 'w', newline='') as csv_file:
-        fieldnames_exp = ["Type", "Amount", "Essential", "Non-Essential"]
+        fieldnames_exp = ["Type", "Amount", "Description", "Essential"]
         writer_exp = csv.DictWriter(csv_file, fieldnames=fieldnames_exp)
         writer_exp.writeheader()
         for item in tree_exp.get_children():
@@ -72,7 +78,7 @@ def read_from_csv():
         reader = csv.DictReader(csv_file)
         for row in reader:
             if 'Essential' in row:
-                tree_exp.insert("", tk.END, values=(row['Type'], row['Amount'], row['Essential'], row['Non-Essential']))
+                tree_exp.insert("", tk.END, values=(row['Type'], row['Amount'], row['Essential']))
             else:
                 tree_inc.insert("", tk.END, values=(row['Type'], row['Amount']))
 
@@ -81,26 +87,25 @@ def exp_button():
     create_exp_dictionary()
 
 
+# # Sample data
+# labels = ['Expenditure', 'Savings', 'Investments']
+# sizes = [25, 30, 20]
 
-# Sample data
-labels = ['Expenditure', 'Savings', 'Investments']
-sizes = [25, 30, 20]
+# # Colors for each category
+# colors = ['#ff9999', '#66b3ff', '#99ff99']
 
-# Colors for each category
-colors = ['#ff9999', '#66b3ff', '#99ff99']
+# # Exploding the 2nd slice (i.e., 'Category B')
+# explode = (0, 0.1, 0)
 
-# Exploding the 2nd slice (i.e., 'Category B')
-explode = (0, 0.1, 0)
-
-# Plotting the pie chart
-plt.figure(figsize=(8, 8))
-plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors, explode=explode)
-plt.title('Simple Pie Chart')
-plt.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
+# # Plotting the pie chart
+# plt.figure(figsize=(8, 8))
+# plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors, explode=explode)
+# plt.title('Simple Pie Chart')
+# plt.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
 
 
-# Show the pie chart
-plt.show()
+# # Show the pie chart
+# plt.show()
 
 
 
@@ -138,16 +143,13 @@ exp_description_label.grid(row=4, column=0, padx=10, pady=5)
 exp_description_entry = tk.Entry(tab1, width=25)
 exp_description_entry.grid(row=4, column=1, padx=10, pady=5)
 
-exp_checkbox_label = tk.Label(tab1, text="Expense Category:")
+exp_checkbox_label = tk.Label(tab1, text="Essential: ")
 exp_checkbox_label.grid(row=5, column=0, padx=10, pady=5)
 
 checkbox_var1 = tk.BooleanVar()
 checkbox1 = tk.Checkbutton(tab1, text="Essential", variable=checkbox_var1)
 checkbox1.grid(row=5, column=1, sticky="w")
 
-checkbox_var2 = tk.BooleanVar()
-checkbox2 = tk.Checkbutton(tab1, text="Non-Essential", variable=checkbox_var2)
-checkbox2.grid(row=5, column=1, sticky="e")
 
 exp_submit_button = tk.Button(tab1, text="Submit", command=exp_button, fg="white", bg="black")
 exp_submit_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
@@ -168,7 +170,7 @@ inc_entry2.grid(row=3, column=1, padx=10, pady=5)
 inc_submit_button = tk.Button(tab2, text="Submit", command=create_income_dictionary, fg="white", bg="black")
 inc_submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
-columns_exp = ("Type", "Amount", "Description", "Essential", "Non-Essential")
+columns_exp = ("Type", "Amount", "Description", "Essential")
 tree_exp = ttk.Treeview(tab1, columns=columns_exp, show="headings")
 
 for col in columns_exp:
@@ -195,10 +197,10 @@ delete_inc_button.grid(row=7, column=0, columnspan=3, padx=10, pady=10)
 save_csv_button = tk.Button(root, text="Save to CSV", command=save_to_csv, fg="white", bg="black")
 save_csv_button.grid(row=10, column=0, columnspan=2, padx=10, pady=10)
 
-exp_entry_label2 = tk.Label(tab3, text='Target savings')
-exp_entry_label2.grid(row=3, column=0, padx=10, pady=5)
-exp_entry2 = tk.Entry(tab3, width=25)
-exp_entry2.grid(row=3, column=1, padx=10, pady=5)
+exp_entry_label3 = tk.Label(tab3, text='Target savings')
+exp_entry_label3.grid(row=3, column=0, padx=10, pady=5)
+exp_entry3 = tk.Entry(tab3, width=25)
+exp_entry3.grid(row=3, column=1, padx=10, pady=5)
  
 
 title = tk.Label(tab3, text="Savings", font=("calibri", 40, "bold"), fg="black")
